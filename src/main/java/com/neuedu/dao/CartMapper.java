@@ -1,6 +1,12 @@
 package com.neuedu.dao;
 
 import com.neuedu.pojo.Cart;
+import com.neuedu.pojo.OrderItem;
+import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 public interface CartMapper {
     /**
@@ -50,4 +56,35 @@ public interface CartMapper {
      * @mbggenerated
      */
     int updateByPrimaryKey(Cart record);
+
+
+
+    //根据userId查询Cart
+    List<Cart> selectByUserId(Integer userId);
+
+
+    //查看是否全选
+    int lookIsAllChecked(Integer userId);
+
+
+
+    //判断购物车中有无该商品
+    //横向越权
+    Cart queryProExistsByCart(@Param("userId") Integer userId,@Param("pId") Integer proId);
+
+
+    //修改购物车中某件商品是否选中的状态
+    int updateByUserIdAndProId(@Param("userId") Integer userId,@Param("pId") Integer proId,@Param("isChecked")Integer isChecked);
+
+
+
+    //查询用户下已选中的购物车商品
+    List<Cart> selectCheckedByUserId(Integer userId);
+
+
+    //删除购物车中用户已选择的商品
+    int delCartCheckedShopByUserId(@Param("list") List<OrderItem> orderItems,@Param("userId") Integer userId);
+
+
+
 }
